@@ -1,0 +1,39 @@
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+#tengah {
+    margin-left: 30%;
+    margin-right: 30%;
+}
+#btnTambah {
+    float: left;
+    margin-bottom: 0.5%;
+}
+#kontak{
+    -moz-box-shadow: 0 0 2px grey;
+    -webkit-box-shadow: 0 0 2px grey;
+    box-shadow: 0 0 2px grey;
+    padding: 15px;
+}
+#contain{
+    -moz-box-shadow: 0 0 30px grey;
+    -webkit-box-shadow: 0 0 30px grey;
+    box-shadow: 0 0 30px grey;
+    margin-left: -40px;
+    margin-right: -40px;
+    padding: 40px;
+    width: 0%;
+}
+#contain2{
+    -moz-box-shadow: 0 0 30px grey;
+    -webkit-box-shadow: 0 0 30px grey;
+    box-shadow: 0 0 30px grey;
+    margin-left: -40px;
+    margin-right: -40px;
+    padding: 40px;
+    display:none;
+}
+#contain3{
+    display:none;
+}
