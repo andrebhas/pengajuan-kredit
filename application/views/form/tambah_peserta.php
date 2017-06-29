@@ -14,14 +14,20 @@
             select: function (event, ui) {  
                 var ktp = ui.item.value;
                 var json = '<?php echo base_url("index.php/C_data_peserta/json_peserta") ?>' +'/'+ ktp;
-                $.getJSON(json, function(jd) {
-                  $("#nama").val(jd.nama);
-                  $("#alamat").val(jd.alamat);
-                  $("#no_tlp").val(jd.no_tlp);
+                $.getJSON(json, function(jd) { 
+                  if(jd.status == 1){
+                    alert("Anggota masih berhutang");
+                    $( "#KTP_ID" ).val("");
+                  } else {
+                    $("#nama").val(jd.nama);
+                    $("#alamat").val(jd.alamat);
+                    $("#no_tlp").val(jd.no_tlp);
+                  }
                 });
             }   
         });
         
+        //cicilan perbulan
         $( "#lama_cicil" ).change(function () {
             var thn = $( this ).val();
             dana_diajukan = $("#dana_diajukan").val();
