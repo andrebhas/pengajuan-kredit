@@ -38,7 +38,6 @@
                 hasil = parseFloat(cicilan).toFixed(2);
                 $('#cicilan_perbulan').val(hasil);
             }
-            
         });
         
         var count = 1;
