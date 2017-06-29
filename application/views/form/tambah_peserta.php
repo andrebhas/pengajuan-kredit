@@ -22,6 +22,24 @@
             }   
         });
         
+        $( "#lama_cicil" ).change(function () {
+            var thn = $( this ).val();
+            dana_diajukan = $("#dana_diajukan").val();
+            if (dana_diajukan == ""){
+                alert('Isi dana uyang ingin diajukan');
+            } else if (thn == "") {
+                alert('Pilih Lama Cicilan');
+                $('#cicilan_perbulan').val('');
+            } else {
+                bunga = thn * (9/100);
+                hasil_persen = dana_diajukan * bunga;
+                lama_cicil = thn * 12 ;
+                cicilan = ( parseFloat(dana_diajukan) +  parseFloat(hasil_persen) ) / lama_cicil ;
+                hasil = parseFloat(cicilan).toFixed(2);
+                $('#cicilan_perbulan').val(hasil);
+            }
+            
+        });
         
         var count = 1;
         $("#add_btn").click(function() {
@@ -337,7 +355,8 @@
         <div class="control-group">
             <label class="control-label" >Lama Cicilan :</label>
             <div class="controls">
-                <select name="lama_cicil">
+                <select name="lama_cicil" id="lama_cicil">
+                    <option value="">Pilih ..</option>
                     <option value="1">1 Tahun</option>
                     <option value="2">2 Tahun</option>
                     <option value="3">3 Tahun</option>
@@ -358,7 +377,7 @@
          <div class="control-group">
             <label class="control-label" >Cicilan perbulan  :</label>
             <div class="controls">
-                <input type="text" placeholder="cicilan perbulan..." name="cicil_perbulan"  value="" required="">
+                <input type="text" placeholder="cicilan perbulan..." name="cicil_perbulan" id="cicilan_perbulan"  value="" required="">
             </div>
         </div>
         <div class="control-group">
