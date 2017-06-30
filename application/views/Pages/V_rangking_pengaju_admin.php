@@ -44,6 +44,7 @@
                 <tr>
                     <th>#</th>
                     <th>No. KTP</th>
+                    <th>File</th>
                     <th>Nama</th>
                     <th>Alamat</th>
                     <th>Dana</th>
@@ -67,6 +68,16 @@
                         <tr>
                             <td><?php echo $no; ?></td>
                             <td><?php echo $peserta->KTP_ID; ?></td>
+                            <td>
+                                <?php 
+                                    $file = $this->M_peserta->get_files($peserta->KTP_ID);
+                                    if($file){ 
+                                        echo '<a class="btn btn-success btn xs" href="'.base_url('uploads/files/'.$file->nama_files).'"><i class="icon-download"></i> unduh</a>';
+                                    } else {
+                                        echo "tidak ada file";
+                                    }
+                                ?>
+                            </td>
                             <td><?php echo $peserta->nama; ?></td>
                             <td><?php echo $peserta->alamat; ?></td>
                             <td><?php echo $peserta->dana_diajukan; ?></td>

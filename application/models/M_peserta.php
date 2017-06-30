@@ -181,6 +181,13 @@ class M_peserta extends CI_Model {
         $this->db->where('no', $ktp);
         $this->db->update('peserta_kredit');
     }
+    function get_files($ktp)
+    {
+        $this->db->select('*');
+        $this->db->from('files');
+        $this->db->where('no', $ktp);
+        return $this->db->get()->row();
+    }
 
 }
 

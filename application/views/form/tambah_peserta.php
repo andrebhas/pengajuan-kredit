@@ -32,7 +32,7 @@
             var thn = $( this ).val();
             dana_diajukan = $("#dana_diajukan").val();
             if (dana_diajukan == ""){
-                alert('Isi dana uyang ingin diajukan');
+                alert('Isi dana yang ingin diajukan');
             } else if (thn == "") {
                 alert('Pilih Lama Cicilan');
                 $('#cicilan_perbulan').val('');
