@@ -11,6 +11,7 @@ class C_data_peserta extends CI_Controller {
         $this->load->library('input');
         $this->load->library('session');
         $this->load->model('M_peserta');
+        $this->load->model('M_kriteria_kredit');
     }
 
     public function tambah_peserta() {
@@ -35,7 +36,6 @@ class C_data_peserta extends CI_Controller {
         } else {
             $data = $this->M_peserta->get_all_peserta($ktp);
         }
-        
         echo json_encode($data);
     }
 
@@ -57,22 +57,25 @@ class C_data_peserta extends CI_Controller {
         $data['penghasilan_perbulan'] = $this->input->post('penghasilan_perbulan');
         $data['mampu_cicil'] = $this->input->post('mampu_cicil');
         $data['ID_kredit'] = $this->session->userdata('IDKredit');
-        $data['scor'] = 0;
-        
+        //$data['scor'] = 0;
+
+        //==================================Mengambil hasil bobot perhitungan=============================================
+        $bobot_reputasi = $this->M_kriteria_kredit->select_by_id($this->session->userdata('IDKredit'), 1)->row();
+        $bobot_hargaBarang = $this->M_kriteria_kredit->select_by_id($this->session->userdata('IDKredit'), 2)->row();
+        $bobot_aset = $this->M_kriteria_kredit->select_by_id($this->session->userdata('IDKredit'), 3)->row();
+        $bobot_dana = $this->M_kriteria_kredit->select_by_id($this->session->userdata('IDKredit'), 4)->row();
+        $bobot_mampuCicil = $this->M_kriteria_kredit->select_by_id($this->session->userdata('IDKredit'), 5)->row();
+
+        $reputasi = ($this->cek_reputasi($this->input->post('reputasi'))) * $bobot_reputasi->bobot;
+        $hargaBarang = ($this->cek_hargaBarang($this->input->post('hargaBarang'))) * $bobot_hargaBarang->bobot;
+        $aset = ($this->cek_aset($this->input->post('aset'))) * $bobot_aset->bobot;
+        $dana = ($this->cek_dana($this->input->post('dana'))) * $bobot_dana->bobot;
+        $mampu_cicil = ($this->cek_mampuCicil($this->input->post('mampu_cicil'))) * $bobot_mampuCicil->bobot;
+
+        $data['scor'] = $reputasi + $hargaBarang + $aset + $dana + $mampu_cicil;
+
         print_r($data);
 
-
-//        $no_urut_file = $this->M_peserta->No_Urut()->result();
-//        if (count($no_urut_file) != 0) {
-//            foreach ($no_urut_file as $t) {
-//                $hasil = $t->id_files + 1;
-//            }
-//        } else {
-//            $hasil = 1;
-//        }
-        
-        
-        
         if ($this->input->post('KTP_ID') && !empty($_FILES['userFiles']['name'])) {
             $filesCount = count($_FILES['userFiles']['name']);
             for ($i = 0; $i < $filesCount; $i++) {
@@ -107,9 +110,8 @@ class C_data_peserta extends CI_Controller {
                 $hasil++;
             }
                 $this->M_peserta->insert_peserta($data);
-                redirect(site_url('C_halaman_pengurus/data_peserta'));
+                redirect(site_url('C_halaman_pengurus/rangking_peserta/0'));
         }
-        
         
     }
 
@@ -163,6 +165,81 @@ class C_data_peserta extends CI_Controller {
         }
         $this->M_peserta->delete_peserta($id_peserta);
         redirect(site_url('C_halaman_pengurus/data_peserta'));
+    }
+
+    public function cek_reputasi($reputasi) {
+        if ($reputasi == 5) {
+            $nilai = 0.42;
+        } else if ($reputasi == 4) {
+            $nilai = 0.26;
+        } else if ($reputasi == 3) {
+            $nilai = 0.16;
+        } else if ($reputasi == 2) {
+            $nilai = 0.1;
+        } else if ($reputasi == 1) {
+            $nilai = 0.06;
+        }
+        return $nilai;
+    }
+
+    public function cek_hargaBarang($hargaBarang) {
+        if ($hargaBarang == "> Rp 4.000.000") {
+            $nilai = 0.42;
+        } else if ($hargaBarang == "Rp 3.000.000 - Rp 4.000.000") {
+            $nilai = 0.26;
+        } else if ($hargaBarang == "Rp 2.000.000 - Rp 3.000.000") {
+            $nilai = 0.16;
+        } else if ($hargaBarang == "Rp 1.000.000 - Rp 2.000.000") {
+            $nilai = 0.1;
+        } else if ($hargaBarang == "< Rp 1.000.000") {
+            $nilai = 0.06;
+        }
+        return $nilai;
+    }
+
+    public function cek_aset($aset) {
+        if ($aset == "> Rp 4.000.000") {
+            $nilai = 0.42;
+        } else if ($aset == "Rp 3.000.000 - Rp 4.000.000") {
+            $nilai = 0.26;
+        } else if ($aset == "Rp 2.000.000 - Rp 3.000.000") {
+            $nilai = 0.16;
+        } else if ($aset == "Rp 1.000.000 - Rp 2.000.000") {
+            $nilai = 0.1;
+        } else if ($aset == "< Rp 1.000.000") {
+            $nilai = 0.06;
+        }
+        return $nilai;
+    }
+
+    public function cek_dana($dana) {
+        if ($dana == "< Rp 1.000.000") {
+            $nilai = 0.42;
+        } else if ($dana == "Rp 1.000.000 - Rp 2.000.000") {
+            $nilai = 0.26;
+        } else if ($dana == "Rp 2.000.000 - Rp 3.000.000") {
+            $nilai = 0.16;
+        } else if ($dana == "Rp 3.000.000 - Rp 4.000.000") {
+            $nilai = 0.1;
+        } else if ($dana == "> Rp 4.000.000") {
+            $nilai = 0.06;
+        }
+        return $nilai;
+    }
+    
+    public function cek_mampuCicil($lama_cicil) {
+        if ($lama_cicil == 5) {
+            $nilai = 0.42;
+        } else if ($lama_cicil == 4) {
+            $nilai = 0.26;
+        } else if ($lama_cicil == 3) {
+            $nilai = 0.16;
+        } else if ($lama_cicil == 2) {
+            $nilai = 0.1;
+        } else if ($lama_cicil == 1) {
+            $nilai = 0.06;
+        }
+        return $nilai;
     }
 
 }
