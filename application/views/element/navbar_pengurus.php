@@ -9,7 +9,7 @@
         <a href="<?php echo site_url('C_halaman_pengurus/data_peserta');?>"><i class="icon-file"></i> Data Pengaju Kredit</a>
       </li>
       <li class="<?php if(isset($active_rangking)){echo $active_rangking ;}?>">
-          <a href="<?php echo site_url('C_halaman_pengurus/rangking_peserta/0');?>"><i class="icon-info-sign"></i> Rangking</a>
+          <a href="<?php echo site_url('C_halaman_pengurus/rangking_peserta/0');?>"><i class="icon-info-sign"></i> Rangking Pengaju Kredit</a>
       </li>
 
       <li class="dropdown" style="margin-left: 480px;">

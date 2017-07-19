@@ -2,7 +2,7 @@
     <div class="row">
         <div class="span12">
             <center>
-                <h2>Data Pengaju Kredit</h2>
+                <h2>Data Rangking Pengaju Kredit</h2>
                 <hr />
             </center>
             <!--        <div class="row">

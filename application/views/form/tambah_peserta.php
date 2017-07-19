@@ -166,6 +166,7 @@
             }
             
         });
+        
         function pesan_harga(harga) {
             $("#brg_ditanggungkan").val("");
             alert("Dana tidak sesuai dengan range dana!\nRange dana adalah" + harga + "!");
@@ -237,7 +238,7 @@
     }
     
     function ceknama(name) {
-        var l = /^[A-Za-z]+$/;
+        var l = /^[A-Za-z ]+$/;
         if (name.value.match(l)) {
             return true;
         }
@@ -269,10 +270,7 @@
                 </div>
             </div>
         </div>
-        <!-- yang no ktp, kata pak anang suruh bisa search nyun
-        jadi kita masukin no ktp nanti dia search kalo ada di database kita klik semua datanya langsung
-        ngisi ke kolom2 itu, trus kalo misal statusnya masih disetujui alias masih ada utang 
-        langsung keluar warning no ktp ini masih berhutang gitu nyun onblur="cek(this);"-->
+        <!--onblur="cek(this);"-->
         <div class="control-group">
             <label class="control-label" >No KTP :</label>
             <div class="controls">
@@ -282,7 +280,7 @@
         <div class="control-group">
             <label class="control-label" >Nama peserta :</label>
             <div class="controls">
-                <input onkeyup="ceknama(this);" type="text" placeholder="Nama peserta..." id="nama" name="nama" value="" required="">
+                <input onblur="ceknama(this);" type="text" placeholder="Nama peserta..." id="nama" name="nama" value="" required="">
             </div>
         </div>
         <div class="control-group">
@@ -370,27 +368,19 @@
                 </select>  
             </div>
           </div>
-        <!-- Di cicilan perbulan ini rumusnya dana_diajukan dibagi lama bulan dikali  bunga
-        if dana_diajukan < 1.000.000 sampai = 2.000.000 bunga 2%
-        if dana_diajukan > 2.000.000 sampai = 4.000.000 bunga 1,75%
-        if dana diajukan > 4.000.000 bunga 1,5%
-        trus nanti hasil perhitungannya muncul di bagian cicilan_perbulan
         
-        enaknya yang cicilan perbualan dibuat label apa inputan gitu terserah kamu aja nyun
-        yang penting hasilnya langsung muncul gitu nyun
-        -->
          <div class="control-group">
             <label class="control-label" >Cicilan perbulan  :</label>
             <div class="controls">
                 <input type="text" placeholder="cicilan perbulan..." name="cicil_perbulan" id="cicilan_perbulan"  value="" required="">
             </div>
         </div>
-        <div class="control-group">
-            <label class="control-label" >Penghasilan perbulan  :</label>
+<!--         <div class="control-group">
+           <label class="control-label" >Penghasilan perbulan  :</label>
             <div class="controls">
                 <input type="text" placeholder="penghasilan perbulan..." name="penghasilan_perbulan" value="" required="">
             </div>
-        </div>
+        </div>-->
         <div class="control-group">
             <div class="control-group">
             <label class="control-label" >Kemampuan Menyicil :</label>

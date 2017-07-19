@@ -163,13 +163,6 @@ class C_halaman_pengurus extends CI_Controller {
     }
 
     public function rangking_peserta($ke) {
-        $data = array(
-            'title' => 'Info Kredit',
-            'active_rangking' => 'active');
-
-        $this->load->view('element/header', $data);
-        $this->load->view('element/navbar_pengurus');
-
 //        $data['daftar_peserta'] = $this->M_peserta->select_by_kredit($this->session->userdata('IDKredit'))->result();
         $data['daftar_pes'] = $this->M_peserta->select_all()->result();
         $data['id'] = $ke;
@@ -181,6 +174,8 @@ class C_halaman_pengurus extends CI_Controller {
         $bobot_hargaBarang = $this->M_kriteria_kredit->select_by_id($this->session->userdata('IDKredit'), 2)->row();
         $bobot_aset = $this->M_kriteria_kredit->select_by_id($this->session->userdata('IDKredit'), 3)->row();
         $bobot_dana = $this->M_kriteria_kredit->select_by_id($this->session->userdata('IDKredit'), 4)->row();
+        $bobot_mampuCicil = $this->M_kriteria_kredit->select_by_id($this->session->userdata('IDKredit'), 5)->row();
+        //echo $bobot_mampuCicil->bobot;
         //================================================================================================================
         //=============================Mengkalikan bobot dengan nilai masing2 mahasiswa===================================
         foreach ($data['daftar_peserta'] as $peserta) {
@@ -188,10 +183,12 @@ class C_halaman_pengurus extends CI_Controller {
             $peserta->hargaBarang = ($this->cek_hargaBarang($peserta->hargaBarang)) * $bobot_hargaBarang->bobot;
             $peserta->aset = ($this->cek_aset($peserta->aset)) * $bobot_aset->bobot;
             $peserta->dana = ($this->cek_dana($peserta->dana)) * $bobot_dana->bobot;
+            $peserta->mampu_cicil = ($this->cek_mampuCicil($peserta->mampu_cicil)) * $bobot_mampuCicil->bobot;
 
-            $data2['scor'] = $peserta->reputasi + $peserta->hargaBarang + $peserta->aset + $peserta->dana;
+            $data2['scor'] = $peserta->reputasi + $peserta->hargaBarang + $peserta->aset + $peserta->dana + $peserta->mampu_cicil;
             //Mengupdate nilai mahasiswa
-            $this->M_peserta->update_peserta($peserta->KTP_ID, $data2);
+            $this->M_peserta->update_peserta($peserta->no, $data2);
+            
         }
         //=================================================================================================================
         //===============================================Membatasi Jumlah rangking=========================================
@@ -200,21 +197,26 @@ class C_halaman_pengurus extends CI_Controller {
         //=======================================Mngurutkan berdasarkan nilai tertinggi====================================
         //  $data['relasi_kriteria']    = $this->M_relasi_kriteria->select_by_id($this->session->userdata('IDKredit'))->result();
         //=================================================================================================================
+        $data_c = array(
+            'title' => 'Info Kredit',
+            'active_rangking' => 'active');
 
+        $this->load->view('element/header', $data_c);
+        $this->load->view('element/navbar_pengurus');
         $this->load->view('pages/V_rangking_peserta', $data);
         $this->load->view('element/footer');
     }
 
     public function cek_reputasi($reputasi) {
-        if ($reputasi > 5) {
+        if ($reputasi == 5) {
             $nilai = 0.42;
-        } else if ($reputasi <= 5 && $reputasi > 4) {
+        } else if ($reputasi == 4) {
             $nilai = 0.26;
-        } else if ($reputasi <= 4 && $reputasi > 3) {
+        } else if ($reputasi == 3) {
             $nilai = 0.16;
-        } else if ($reputasi <= 3 && $reputasi > 2) {
+        } else if ($reputasi == 2) {
             $nilai = 0.1;
-        } else if ($reputasi <= 1) {
+        } else if ($reputasi == 1) {
             $nilai = 0.06;
         }
         return $nilai;
@@ -265,16 +267,16 @@ class C_halaman_pengurus extends CI_Controller {
         return $nilai;
     }
     
-    public function mampu_cicil($mampu) {
-        if ($reputasi > 5) {
+    public function cek_mampuCicil($lama_cicil) {
+        if ($lama_cicil == 5) {
             $nilai = 0.42;
-        } else if ($reputasi <= 5 && $reputasi > 4) {
+        } else if ($lama_cicil == 4) {
             $nilai = 0.26;
-        } else if ($reputasi <= 4 && $reputasi > 3) {
+        } else if ($lama_cicil == 3) {
             $nilai = 0.16;
-        } else if ($reputasi <= 3 && $reputasi > 2) {
+        } else if ($lama_cicil == 2) {
             $nilai = 0.1;
-        } else if ($reputasi <= 1) {
+        } else if ($lama_cicil == 1) {
             $nilai = 0.06;
         }
         return $nilai;

@@ -70,6 +70,13 @@ class M_peserta extends CI_Model {
         $this->db->group_by('KTP_ID');
         return $this->db->get()->result();
     }
+    
+    function get_by_no_peserta($no) {
+        $this->db->select('*');
+        $this->db->from('peserta_kredit');
+        $this->db->where('no',$no);
+        return $this->db->get()->row();
+    }
 
     function get_peserta_by_ktp($ktp) {
         $this->db->select('*');
@@ -139,7 +146,7 @@ class M_peserta extends CI_Model {
     function select_nameFiles_by_id($ktp) {
         $this->db->select('nama_files');
         $this->db->from('files');
-        $this->db->where('no', $ktp);
+        $this->db->where('KTP_ID', $ktp);
         return $this->db->get();
     }
 
@@ -162,7 +169,7 @@ class M_peserta extends CI_Model {
         $this->db->delete('peserta_kredit');
     }
     function delete_files($ktp) {
-        $this->db->where('no', $ktp);
+        $this->db->where('KTP_ID', $ktp);
         $this->db->delete('files');
     }
     
@@ -185,7 +192,7 @@ class M_peserta extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from('files');
-        $this->db->where('no', $ktp);
+        $this->db->where('KTP_ID', $ktp);
         return $this->db->get()->row();
     }
 

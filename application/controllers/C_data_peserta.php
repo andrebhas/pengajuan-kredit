@@ -58,32 +58,23 @@ class C_data_peserta extends CI_Controller {
         $data['mampu_cicil'] = $this->input->post('mampu_cicil');
         $data['ID_kredit'] = $this->session->userdata('IDKredit');
         $data['scor'] = 0;
-
-//        $data2['daftar_peserta'] = $this->M_peserta->select_all()->result();
-//
-//        $input = true;
-//        foreach ($data2['daftar_peserta'] as $peserta) {
-//            if ($peserta->KTP_ID == $data['KTP_ID']) {
-//                $input = false;
-//                break;
-//            }
-//        }
-
-        $no_urut_file = $this->M_peserta->No_Urut()->result();
-//        echo '<script>alert(' . count($no_urut_file) . ');</script>';
-        if (count($no_urut_file) != 0) {
-            foreach ($no_urut_file as $t) {
-                $hasil = $t->id_files + 1;
-            }
-        } else {
-            $hasil = 1;
-        }
         
-//        print_r($_FILES['userFiles']['name']);die;
-//        $data = array();
+        print_r($data);
+
+
+//        $no_urut_file = $this->M_peserta->No_Urut()->result();
+//        if (count($no_urut_file) != 0) {
+//            foreach ($no_urut_file as $t) {
+//                $hasil = $t->id_files + 1;
+//            }
+//        } else {
+//            $hasil = 1;
+//        }
+        
+        
+        
         if ($this->input->post('KTP_ID') && !empty($_FILES['userFiles']['name'])) {
             $filesCount = count($_FILES['userFiles']['name']);
-//            print_r($filesCount);die;
             for ($i = 0; $i < $filesCount; $i++) {
                 $_FILES['userFile']['name'] = $_FILES['userFiles']['name'][$i];
                 $_FILES['userFile']['type'] = $_FILES['userFiles']['type'][$i];
@@ -102,32 +93,24 @@ class C_data_peserta extends CI_Controller {
                 $this->upload->display_errors('<p>', '</p>');
                 if ($this->upload->do_upload('userFile')) {
                     $fileData = $this->upload->data();
-//                    print_r($fileData);die;
                     $uploadData = array(
-                        'no' => $data['KTP_ID'],
-                        'id_files' => $hasil,
+                        'KTP_ID' => $data['KTP_ID'],
+                        //'id_files' => $hasil,
                         'nama_files' => $fileData['file_name'],
                         'tanggal_upload' => date("Y-m-d H:i:s")
                     );
-//                    echo "<pre>";
-//                    print_r($uploadData);
                     $this->M_peserta->insert_files($uploadData);
-//                    echo "<br><br>Saved<br><br>";
+                    
                 } else {
                     echo '<script>alert(GAGAL UPLOAD!!!!);</script>';
                 }
                 $hasil++;
             }
-
-//            die;
-
-//            if ($input == false) {
-//                redirect(site_url('C_data_peserta/tambah_peserta') . "?pesan=gagal");
-//            } else {
                 $this->M_peserta->insert_peserta($data);
                 redirect(site_url('C_halaman_pengurus/data_peserta'));
-//            }
         }
+        
+        
     }
 
     public function edit_peserta($ID_peserta) {
@@ -168,16 +151,17 @@ class C_data_peserta extends CI_Controller {
     }
 
     public function delete_peserta($id_peserta) {
-
-        $this->M_peserta->delete_peserta($id_peserta);
-        $select_name = $this->M_peserta->select_nameFiles_by_id($id_peserta)->result();
-        foreach ($select_name as $name) {
-            $filename = $name->nama_files;
-//            $uploadPath = 'uploads/files/';
-            unlink('uploads/files/'.$filename);
+        $peserta = $this->M_peserta->get_by_no_peserta($id_peserta);
+        if($peserta){
+             $select_name = $this->M_peserta->select_nameFiles_by_id($peserta->no)->result();
+             foreach ($select_name as $name) {
+                $filename = $name->nama_files;
+        //      $uploadPath = 'uploads/files/';
+                unlink('uploads/files/'.$filename);
+             }
+            $this->M_peserta->delete_files($peserta->KTP_ID);
         }
-        $this->M_peserta->delete_files($id_peserta);
-
+        $this->M_peserta->delete_peserta($id_peserta);
         redirect(site_url('C_halaman_pengurus/data_peserta'));
     }
 

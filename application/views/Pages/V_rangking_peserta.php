@@ -50,7 +50,7 @@
                     <td><?php echo $peserta->scor; ?></td>
                     <td>
                         <?php if ($peserta->hitung_ke != 0) { ?>
-                            <a href="<?php echo site_url('C_halaman_pengurus/batal_hitung_ke/' . $peserta->KTP_ID . '/' . $peserta->hitung_ke); ?>" class="btn btn-primary">Batal</a>
+                            <a href="<?php echo site_url('C_halaman_pengurus/batal_hitung_ke/' . $peserta->no . '/' . $peserta->hitung_ke); ?>" class="btn btn-primary">Batal</a>
                         <?php } ?>
                     </td>
                 </tr>

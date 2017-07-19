@@ -11,21 +11,21 @@
           </ol>
           <!-- Carousel items -->
           <div class="carousel-inner">
-            <div class="active item"><img src="<?php echo base_url('asset/img/unej.jpg');?>" />
+            <div class="active item"><img src="<?php echo base_url('asset/img/bpr1.jpg');?>" />
                 <div class="carousel-caption">
                     <h4>Decision Support System Penentuan Penerima Kredit</h4>
                     <p>Website ini mengelola data para calon kreditur Bank Perkreditan Rakyat Sukowono Arthajaya</p>
                     <p>Fasilitas lain dalam sistem ini adalah sebagai pendukung pengambilan keputusan</p>
                 </div>
             </div>
-            <div class="item"><img src="<?php echo base_url('asset/img/unej.jpg');?>" />
+            <div class="item"><img src="<?php echo base_url('asset/img/bpr1.jpg');?>" />
                 <div class="carousel-caption">
                     <h4>Decision Support System Penentuan Penerima Kredit</h4>
                     <p>Berdasarkan data para calon kreditur yang mengajukan kredit</p>
                     <p>Sistem akan secara otomatis mengkalkulasi kemungkinan calon kreditur yang akan menerima kredit</p>
                 </div>
             </div>
-            <div class="item"><img src="<?php echo base_url('asset/img/unej.jpg');?>" />
+            <div class="item"><img src="<?php echo base_url('asset/img/bpr1.jpg');?>" />
                 <div class="carousel-caption">
                     <h4>Decision Support System Penentuan Penerima Kredit</h4>
                     <p>Dengan adanya list penerima kredit tersebut</p>
