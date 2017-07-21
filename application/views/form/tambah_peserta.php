@@ -292,12 +292,55 @@
         <div class="control-group">
             <label class="control-label" >Reputasi UKM :</label>
             <div class="controls">
-                <select name="reputasi">
-                    <option value="1">Sangat Baik</option>
-                    <option value="2">Baik</option>
-                    <option value="3">Sedang</option>
-                    <option value="4">Biasa</option>
-                    <option value="5">Tidak Baik</option>
+                <div class="checkbox">
+                    <label><input type="checkbox" class="check" value="">Check 1</label>
+                </div>
+                 <div class="checkbox">
+                    <label><input type="checkbox" class="check" value="">Check 2</label>
+                </div>
+                 <div class="checkbox">
+                    <label><input type="checkbox" class="check" value="">Check 3</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" class="check" value="">Check 4</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" class="check" value="">Check 4</label>
+                </div>
+                <script type="application/javascript">
+                    $(".check").change(function() {
+                        //if(this.checked) {
+                        var total_cek = $('input:checkbox:checked').length;
+                        if(total_cek == 1){
+                            //alert('satu');
+                            $('#tbaik').prop('selected', 'selected');
+                            $('#reputasi').val(5);
+                        } else if(total_cek == 2){
+                            $('#biasa').prop('selected', 'selected');
+                            $('#reputasi').val(4);
+                        } else if(total_cek == 3){
+                            $('#sedang').prop('selected', 'selected');
+                            $('#reputasi').val(3);
+                        } else if(total_cek == 4){
+                            $('#baik').prop('selected', 'selected');
+                            $('#reputasi').val(2);
+                        } else if(total_cek == 5){
+                            $('#sbaik').prop('selected', 'selected');
+                            $('#reputasi').val(1);
+                        } else {
+                            $('#oho').prop('selected', 'selected');
+                            $('#reputasi').val(0);
+                        }
+                    });
+                </script>
+                <input type="hidden" name="reputasi" id="reputasi" value="">
+                <select disabled>
+                    <option id="oho" value=""></option>
+                    <option id="sbaik" value="1">Sangat Baik</option>
+                    <option id="baik" value="2">Baik</option>
+                    <option id="sedang" value="3">Sedang</option>
+                    <option id="biasa" value="4">Biasa</option>
+                    <option id="tbaik" value="5" >Tidak Baik</option>
                 </select>
             </div>
         </div>
